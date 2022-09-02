@@ -1,6 +1,6 @@
 ## Words
 
-Having fun with encoding / decoding things using (mostly) English words, and one-time-pad cryptography.
+Having fun with encoding / decoding things using (mostly) English words, and [one-time pad][3] cryptography.
 
 To create a one-time pad, run `make`. Then to see the proof-of-concept:
 
@@ -18,3 +18,4 @@ echo "despise anybody customize sedation chastise matrimony jiffy took" | ./decr
 
 [1]: https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases
 [2]: https://gist.github.com/deekayen/4148741
+[3]: https://en.wikipedia.org/wiki/One-time_pad
