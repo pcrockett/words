@@ -1,4 +1,10 @@
+!
+#
+%
 '
+(
+)
+*
 +
 ,
 -
@@ -9,9 +15,11 @@
 =
 >
 ?
+@
 [
 \
 ]
+^
 {
 |
 }
@@ -1214,7 +1222,6 @@ amnionic
 amniote
 amniotic
 amoeba
-amoebae
 amoeban
 amoebean
 amoebic
@@ -1254,7 +1261,6 @@ amphibian
 amphibole
 amphitheater
 amphora
-amphorae
 amphoral
 ampicillin
 ampitheater
@@ -1847,7 +1853,6 @@ anyway
 anywhere
 anywise
 aorta
-aortae
 aortal
 aortic
 aouad
@@ -2021,7 +2026,6 @@ area
 areal
 areaway
 arena
-areolae
 areolar
 areolate
 areology
@@ -2536,7 +2540,6 @@ atheistic
 atheistical
 atheling
 athena
-athenaeum
 atheneum
 athenian
 atherosclerotic
@@ -2744,13 +2747,11 @@ auntie
 auntliest
 aunty
 aura
-aurae
 aural
 aurate
 aureate
 aureately
 aureola
-aureolae
 aureole
 aureoled
 aureomycin
@@ -2762,7 +2763,6 @@ auricularly
 auriform
 aurist
 aurora
-aurorae
 auroral
 aurorean
 aurum
@@ -53506,6 +53506,7 @@ soy
 soya
 soybean
 spa
+~~space~~
 space
 spacecraft
 spaced
@@ -65331,7 +65332,6 @@ yolky
 yon
 yond
 yonder
-yoni
 yonker
 yore
 york
