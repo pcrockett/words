@@ -32,7 +32,7 @@ def decrypt(ciphertext: iter, otp_lazy: iter) -> list[str]:
             key_index = otp_lazy.__next__()
             encrypted_index = word_to_index_lookup[encrypted_word]
             plain_index = (encrypted_index - key_index)
-            if plain_index < 0:
+            if plain_index <= 0:
                 plain_index += wordlist_count
             plain_word = index_to_word_lookup[plain_index]
 
