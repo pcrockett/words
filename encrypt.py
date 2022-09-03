@@ -18,8 +18,10 @@ def encrypt(plaintext: iter, otp_lazy: iter) -> list[str]:
     ciphertext: list[str] = list()
     first_line = True
     for line in plaintext:
+
         if not first_line:
             line = f"\\n {line}"
+
         for plain_word in line.split():
 
             if len(plain_word) != 1:
@@ -33,6 +35,9 @@ def encrypt(plaintext: iter, otp_lazy: iter) -> list[str]:
             encrypted_index = (plain_index + key_index) % wordlist.count
             encrypted_word = wordlist.get_word(encrypted_index)
             ciphertext.append(encrypted_word)
+
+        first_line = False
+
     return ciphertext
 
 ciphertext = encrypt(sys.stdin, otp_lazy)
