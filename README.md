@@ -22,15 +22,9 @@ echo "truck influential interfere derivations cheating rivalling" | ./decrypt.py
 The two scripts also keep track of where they are in the one-time pad, so they won't re-use parts of it. Which means:
 
 * If you encrypt the same phrase several times, the output will be different each time.
-* You need to decrypt _everying_ you encrypt, _in order_. Otherwise, the two scripts will get out of sync and you will
-  lose the ability to decrypt. _Side note: There is a built-in mechanism to help detect and prevent this situation._
-
-If your scripts get out of sync, it's easy to fix by re-generating the one-time pad:
-
-```bash
-rm otp.txt
-make
-```
+* You need to decrypt _every message_ you encrypt, _in the order that you encrypted them_. Otherwise, the two scripts
+  will get out of sync and you will lose the ability to decrypt. _See [Troubleshooting](#troubleshooting) below if you
+  get into this situation._
 
 ### Why Did I Do This?
 
@@ -70,6 +64,31 @@ I sourced a lot of my words from:
 * [The EFF long word list][2]
 * [This nice person's 1000 most common words][3]
 * [Ubuntu's `wamerican-small` package][4]
+
+### Troubleshooting
+
+> OTPSyncError: This message starts at a different location from where we are in the one-time pad.
+
+Your encrypt / decrypt scripts for some reason are no longer pointing at the same offset in the one-time pad. The safest
+way to fix this is to reset _All The Things_ and recreate the pad from scratch:
+
+```bash
+rm otp.txt
+make
+```
+
+This is the safest method because it guarantees that you'll never reuse any portion of the one-time pad, which is
+**vital** to the security of the whole thing.
+
+Another way that's less extreme is to just fast-forward whichever script is behind to match the script that's ahead. You
+can do this by running:
+
+```bash
+./resync.py
+```
+
+Only do this if you are certain of the reason why your scripts are out of sync, and you're confident that no portion of
+the OTP will be reused.
 
 [1]: https://en.wikipedia.org/wiki/One-time_pad
 [2]: https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases

@@ -13,6 +13,9 @@ otp_offset = read_otp_offset(OTP_DECRYPT_OFFSET_FILE)
 otp = OneTimePad(OTP_FILE, otp_offset)
 wordlist = read_wordlist(WORDLIST_FILE)
 
+class OTPSyncError(Exception):
+    pass
+
 def decrypt(ciphertext: iter, otp: OneTimePad) -> list[str]:
     starting_otp_word: Optional[str] = None
     for line in ciphertext:
@@ -27,7 +30,7 @@ def decrypt(ciphertext: iter, otp: OneTimePad) -> list[str]:
                     # normal decryption.
                     continue
                 else:
-                    raise IndexError("This message starts at a different location in the one-time pad than we are at.")
+                    raise OTPSyncError("This message starts at a different location from where we are in the one-time pad.")
 
             key_index = otp.next_word_index()
             encrypted_index = wordlist.get_index(encrypted_word)
