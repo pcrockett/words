@@ -1,34 +1,25 @@
 #!/usr/bin/env python3
 import os
 import sys
+from lib import *
 
 this_dir = os.path.dirname(os.path.abspath(__file__))
 
-word_to_index_lookup: dict[str, int] = dict()
-index_to_word_lookup: dict[int, str] = dict()
+OTP_FILE = f"{this_dir}/otp.txt"
+OTP_ENCRYPT_OFFSET_FILE = f"{this_dir}/.otp-encrypt-offset"
+WORDLIST_FILE = f"{this_dir}/wordlist-numbered.txt"
 
-def read_word_to_index_lookup():
-    with open(f"{this_dir}/wordlist-numbered.txt") as file:
-        for line in file:
-            split = line.split("\t")
-            index = int(split[0].strip())
-            word = split[1].strip()
-            word_to_index_lookup[word] = index
-            index_to_word_lookup[index] = word
-
-read_word_to_index_lookup()
-wordlist_count = len(word_to_index_lookup)
-
-def read_otp_lazy() -> iter:
-    with open(f"{this_dir}/otp.txt") as file:
-        for line in file:
-            word_index = int(line.split("\t")[0].strip())
-            yield word_index
+otp_offset = read_otp_offset(OTP_ENCRYPT_OFFSET_FILE)
+otp_lazy = read_otp_lazy(OTP_FILE, otp_offset)
+wordlist = read_wordlist(WORDLIST_FILE)
 
 def encrypt(plaintext: iter, otp_lazy: iter) -> list[str]:
+    global otp_offset
     ciphertext: list[str] = list()
+    first_line = True
     for line in plaintext:
-        line = f"{line}\\n"
+        if not first_line:
+            line = f"\\n {line}"
         for plain_word in line.split():
 
             if len(plain_word) != 1:
@@ -37,12 +28,13 @@ def encrypt(plaintext: iter, otp_lazy: iter) -> list[str]:
                 plain_word = plain_word.lower()
 
             key_index = otp_lazy.__next__()
-            plain_index = word_to_index_lookup[plain_word]
-            encrypted_index = (plain_index + key_index) % wordlist_count
-            encrypted_word = index_to_word_lookup[encrypted_index]
+            otp_offset += 1
+            plain_index = wordlist.get_index(plain_word)
+            encrypted_index = (plain_index + key_index) % wordlist.count
+            encrypted_word = wordlist.get_word(encrypted_index)
             ciphertext.append(encrypted_word)
     return ciphertext
 
-otp_lazy = read_otp_lazy()
 ciphertext = encrypt(sys.stdin, otp_lazy)
+write_otp_offset(otp_offset, OTP_ENCRYPT_OFFSET_FILE)
 print(" ".join(ciphertext))

@@ -1,3 +1,5 @@
+__pycache__/
 otp.txt
 wordlist-sorted.txt
 wordlist-numbered.txt
+/.otp-*-offset
