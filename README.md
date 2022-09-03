@@ -13,9 +13,9 @@ Only tested on Linux.
 make
 
 echo "Holy cow bat man !" | ./encrypt.py
-# Outputs something like this: gloating profusely influenza suffixing stylish
+# Output: truck influential interfere derivations cheating rivalling
 
-echo "gloating profusely influenza suffixing stylish" | ./decrypt.py
+echo "truck influential interfere derivations cheating rivalling" | ./decrypt.py
 # Output: holy cow bat man !
 ```
 
@@ -23,7 +23,7 @@ The two scripts also keep track of where they are in the one-time pad, so they w
 
 * If you encrypt the same phrase several times, the output will be different each time.
 * You need to decrypt _everying_ you encrypt, _in order_. Otherwise, the two scripts will get out of sync and you will
-  lose the ability to decrypt.
+  lose the ability to decrypt. _Side note: There is a built-in mechanism to help detect and prevent this situation._
 
 If your scripts get out of sync, it's easy to fix by re-generating the one-time pad:
 

@@ -39,12 +39,31 @@ def read_wordlist(file_path: str) -> WordLookup:
             lookup.add_word(index, word)
     return lookup
 
-def read_otp_lazy(file_path: str, skip: int) -> iter:
-    with open(file_path) as file:
-        for i in range(skip):
-            file.__next__()  # Skip first lines that we've already used
+class OneTimePad():
+    def __init__(self, file_path: str, current_offset: int):
+        self._file = open(file_path)
+        for i in range(current_offset):
+            self._file.__next__()  # Skip first lines that we've already used
+        self._current_offset = current_offset
 
-        for line in file:
-            word_index = int(line.split("\t")[0].strip())
-            yield word_index
+    @property
+    def current_offset(self) -> int:
+        return self._current_offset
 
+    def next_word_index(self) -> int:
+        line = self._next_line()
+        word_index = int(line.split("\t")[0].strip())
+        return word_index
+
+    def next_word(self) -> str:
+        line = self._next_line()
+        word = line.split("\t")[1].strip()
+        return word
+
+    def close(self):
+        self._file.close()
+
+    def _next_line(self):
+        line = self._file.__next__()
+        self._current_offset += 1
+        return line

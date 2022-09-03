@@ -10,16 +10,26 @@ OTP_DECRYPT_OFFSET_FILE = f"{this_dir}/.otp-decrypt-offset"
 WORDLIST_FILE = f"{this_dir}/wordlist-numbered.txt"
 
 otp_offset = read_otp_offset(OTP_DECRYPT_OFFSET_FILE)
-otp_lazy = read_otp_lazy(OTP_FILE, otp_offset)
+otp = OneTimePad(OTP_FILE, otp_offset)
 wordlist = read_wordlist(WORDLIST_FILE)
 
-def decrypt(ciphertext: iter, otp_lazy: iter) -> list[str]:
-    global otp_offset
+def decrypt(ciphertext: iter, otp: OneTimePad) -> list[str]:
+    starting_otp_word: Optional[str] = None
     for line in ciphertext:
         plaintext: list[str] = list()
         for encrypted_word in line.split():
-            key_index = otp_lazy.__next__()
-            otp_offset += 1
+
+            if starting_otp_word == None:
+                starting_otp_word = otp.next_word()
+                if starting_otp_word == encrypted_word:
+                    # To help us stay in sync with the message sender, the first word should always be the current word
+                    # in the One Time Pad. This is the case; go back to the beginning of the loop and continue with
+                    # normal decryption.
+                    continue
+                else:
+                    raise IndexError("This message starts at a different location in the one-time pad than we are at.")
+
+            key_index = otp.next_word_index()
             encrypted_index = wordlist.get_index(encrypted_word)
             plain_index = (encrypted_index - key_index)
             if plain_index <= 0:
@@ -33,7 +43,8 @@ def decrypt(ciphertext: iter, otp_lazy: iter) -> list[str]:
 
     return plaintext
 
-plaintext_list = decrypt(sys.stdin, otp_lazy)
+plaintext_list = decrypt(sys.stdin, otp)
 plaintext_string = " ".join(plaintext_list)
-write_otp_offset(otp_offset, OTP_DECRYPT_OFFSET_FILE)
+write_otp_offset(otp.current_offset, OTP_DECRYPT_OFFSET_FILE)
 print(plaintext_string)
+otp.close()

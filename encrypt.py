@@ -10,12 +10,10 @@ OTP_ENCRYPT_OFFSET_FILE = f"{this_dir}/.otp-encrypt-offset"
 WORDLIST_FILE = f"{this_dir}/wordlist-numbered.txt"
 
 otp_offset = read_otp_offset(OTP_ENCRYPT_OFFSET_FILE)
-otp_lazy = read_otp_lazy(OTP_FILE, otp_offset)
+otp = OneTimePad(OTP_FILE, otp_offset)
 wordlist = read_wordlist(WORDLIST_FILE)
 
-def encrypt_word(plain_word: str, otp_lazy: iter) -> list[str]:
-    global otp_offset
-
+def encrypt_word(plain_word: str, otp: OneTimePad) -> list[str]:
     if len(plain_word) <= 1:
         plain_index = wordlist.get_index(plain_word)
     else:
@@ -24,31 +22,32 @@ def encrypt_word(plain_word: str, otp_lazy: iter) -> list[str]:
             plain_index = wordlist.get_index(plain_word.lower())
         except KeyError:
             # Not in our word list. Split it up and encrypt each character.
-            return [encrypt_word(ch, otp_lazy)[0] for ch in plain_word]
+            return [encrypt_word(ch, otp)[0] for ch in plain_word]
 
-    key_index = otp_lazy.__next__()
-    otp_offset += 1
+    key_index = otp.next_word_index()
     encrypted_index = (plain_index + key_index) % wordlist.count
     encrypted_word = wordlist.get_word(encrypted_index)
     return [ encrypted_word ]
 
-def encrypt(plaintext: iter, otp_lazy: iter) -> list[str]:
-    global otp_offset
+def encrypt(plaintext: iter, otp: OneTimePad) -> list[str]:
     ciphertext: list[str] = list()
+    ciphertext.append(otp.next_word())  # The decrypt script checks this word to make sure we're in the same place in the OTP
     first_line = True
+
     for line in plaintext:
 
         if not first_line:
             line = f"\\n {line}"
 
         for plain_word in line.split():
-            ciphertext += encrypt_word(plain_word, otp_lazy)
+            ciphertext += encrypt_word(plain_word, otp)
 
         first_line = False
 
     return ciphertext
 
-ciphertext_list = encrypt(sys.stdin, otp_lazy)
+ciphertext_list = encrypt(sys.stdin, otp)
 ciphertext_string = " ".join(ciphertext_list)
-write_otp_offset(otp_offset, OTP_ENCRYPT_OFFSET_FILE)
+write_otp_offset(otp.current_offset, OTP_ENCRYPT_OFFSET_FILE)
 print(ciphertext_string)
+otp.close()
