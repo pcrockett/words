@@ -33,6 +33,7 @@ def decrypt(ciphertext: iter, otp_lazy: iter) -> list[str]:
 
     return plaintext
 
-plaintext = decrypt(sys.stdin, otp_lazy)
+plaintext_list = decrypt(sys.stdin, otp_lazy)
+plaintext_string = " ".join(plaintext_list)
 write_otp_offset(otp_offset, OTP_DECRYPT_OFFSET_FILE)
-print(" ".join(plaintext))
+print(plaintext_string)

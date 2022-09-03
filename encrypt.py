@@ -13,6 +13,25 @@ otp_offset = read_otp_offset(OTP_ENCRYPT_OFFSET_FILE)
 otp_lazy = read_otp_lazy(OTP_FILE, otp_offset)
 wordlist = read_wordlist(WORDLIST_FILE)
 
+def encrypt_word(plain_word: str, otp_lazy: iter) -> list[str]:
+    global otp_offset
+
+    if len(plain_word) <= 1:
+        plain_index = wordlist.get_index(plain_word)
+    else:
+        # This isn't a letter or symbol -- the user typed in a word.
+        try:
+            plain_index = wordlist.get_index(plain_word.lower())
+        except KeyError:
+            # Not in our word list. Split it up and encrypt each character.
+            return [encrypt_word(ch, otp_lazy)[0] for ch in plain_word]
+
+    key_index = otp_lazy.__next__()
+    otp_offset += 1
+    encrypted_index = (plain_index + key_index) % wordlist.count
+    encrypted_word = wordlist.get_word(encrypted_index)
+    return [ encrypted_word ]
+
 def encrypt(plaintext: iter, otp_lazy: iter) -> list[str]:
     global otp_offset
     ciphertext: list[str] = list()
@@ -23,23 +42,13 @@ def encrypt(plaintext: iter, otp_lazy: iter) -> list[str]:
             line = f"\\n {line}"
 
         for plain_word in line.split():
-
-            if len(plain_word) != 1:
-                # This isn't a letter or symbol -- user typed in a word.
-                # All our words in the list are lowercase.
-                plain_word = plain_word.lower()
-
-            key_index = otp_lazy.__next__()
-            otp_offset += 1
-            plain_index = wordlist.get_index(plain_word)
-            encrypted_index = (plain_index + key_index) % wordlist.count
-            encrypted_word = wordlist.get_word(encrypted_index)
-            ciphertext.append(encrypted_word)
+            ciphertext += encrypt_word(plain_word, otp_lazy)
 
         first_line = False
 
     return ciphertext
 
-ciphertext = encrypt(sys.stdin, otp_lazy)
+ciphertext_list = encrypt(sys.stdin, otp_lazy)
+ciphertext_string = " ".join(ciphertext_list)
 write_otp_offset(otp_offset, OTP_ENCRYPT_OFFSET_FILE)
-print(" ".join(ciphertext))
+print(ciphertext_string)
