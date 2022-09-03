@@ -1,4 +1,4 @@
-.PHONY: sort-wordlist reset-offsets
+.PHONY: sort-wordlist
 
 default: otp.txt
 
@@ -8,15 +8,13 @@ wordlist-sorted.txt: wordlist.txt
 wordlist-numbered.txt: wordlist-sorted.txt
 	nl ./wordlist-sorted.txt > wordlist-numbered.txt
 
-reset-offsets:
-	rm -f .otp-encrypt-offset .otp-decrypt-offset
-
-otp.txt: wordlist-numbered.txt reset-offsets
+otp.txt: wordlist-numbered.txt
 	shuf --repeat \
 		--random-source /dev/urandom \
 		--head-count 400000 \
 		wordlist-numbered.txt \
 		> otp.txt
+	rm -f .otp-encrypt-offset .otp-decrypt-offset
 
 sort-wordlist: wordlist-sorted.txt
 	cp wordlist-sorted.txt wordlist.txt
