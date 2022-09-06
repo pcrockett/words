@@ -59,11 +59,10 @@ randomness. All you would need then is boatloads of patience and a few hours to 
 
 ### Credits
 
-I sourced a lot of my words from:
+Some words in my word list were selected by me, however I sourced the majority of my words from these sources:
 
-* [The EFF long word list][2]
+* [The EFF short and long word lists][2]
 * [This nice person's 1000 most common words][3]
-* [Ubuntu's `wamerican-small` package][4]
 
 ### Troubleshooting
 
@@ -93,4 +92,3 @@ the OTP will be reused.
 [1]: https://en.wikipedia.org/wiki/One-time_pad
 [2]: https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases
 [3]: https://gist.github.com/deekayen/4148741
-[4]: https://packages.ubuntu.com/jammy/wamerican-small
