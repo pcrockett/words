@@ -13,20 +13,26 @@ otp_offset = read_otp_offset(OTP_ENCRYPT_OFFSET_FILE)
 otp = OneTimePad(OTP_FILE, otp_offset)
 wordlist = read_wordlist(WORDLIST_FILE)
 
+def flatten(nested_list: list) -> list:
+    flat_list = []
+    for sublist in nested_list:
+        for item in sublist:
+            flat_list.append(item)
+    return flat_list
+
 def encrypt_word(plain_word: str, otp: OneTimePad) -> list[str]:
 
     if plain_word in symbol_lookup:
         # `plain_word` isn't a word; it's actually a symbol. Convert to an actual word and then encrypt it.
         # For example, "!" converts to [ "exclamation", "point" ]
-        symbol_alias = symbol_lookup[plain_word]
-        return [ encrypt_word(s, otp)[0] for s in symbol_alias ]
+        symbol_alias: list[str] = symbol_lookup[plain_word]
+        return flatten([ encrypt_word(s, otp) for s in symbol_alias ])
 
-    # This isn't a letter or symbol; the user typed in a word.
     try:
         plain_index = wordlist.get_index(plain_word.lower())
     except KeyError:
         # Not in our word list. Split it up and encrypt each character.
-        return [encrypt_word(ch, otp)[0] for ch in plain_word]
+        return flatten([ encrypt_word(ch, otp) for ch in plain_word ])
 
     key_index = otp.next_word_index()
     encrypted_index = (plain_index + key_index) % wordlist.count
