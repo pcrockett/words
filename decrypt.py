@@ -23,8 +23,9 @@ otp_offset = read_otp_offset_from_stdin()
 
 if otp_offset < previous_otp_offset:
     sys.stderr.write(
-        "WARNING: Either you are decrypting an old message, or the sender is reusing part of the one-time pad.\n" +
-        "WARNING: It is TRIVIAL to defeat encryption if any part of the one-time pad is reused!\n"
+        "WARNING: Either this message is reusing part of the one-time pad, or it is an old message.\n" +
+        "       : It is TRIVIAL to defeat encryption if any part of the one-time pad is reused!\n" +
+        "       : If this is just an old message, then you have nothing to worry about.\n"
     )
 
 otp = OneTimePad(OTP_FILE, otp_offset)
@@ -46,6 +47,9 @@ def decrypt(ciphertext: iter, otp: OneTimePad) -> list[str]:
 
 plaintext_list = decrypt(sys.stdin, otp)
 plaintext_string = " ".join(plaintext_list)
-write_otp_offset(otp.current_offset, OTP_DECRYPT_OFFSET_FILE)
+
+if otp.current_offset > previous_otp_offset:
+    write_otp_offset(otp.current_offset, OTP_DECRYPT_OFFSET_FILE)
+
 print(plaintext_string)
 otp.close()
