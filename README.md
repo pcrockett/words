@@ -21,29 +21,36 @@ make
 Encrypt a message:
 
 ```bash
-echo "Holy cow , Bat man !" | ./encrypt.py
+echo "Holy cow , Batman !" | ./encrypt.py
 ```
 
 This outputs something like...
 
-> 0 red eccentric glitch amber bronzing steadfast shrouded
+```plaintext
+0 money leggings crib crusader unfixed
+```
+
+If you were to encrypt the same phrase again, it would generate different output that looks something like...
+
+```plaintext
+5 lunacy preamble white penknife esteemed
+```
 
 ---
 
 Decrypt a message:
 
 ```bash
-echo "0 red eccentric glitch amber bronzing steadfast shrouded" | ./decrypt.py
+echo "0 money leggings crib crusader unfixed" | ./decrypt.py
+echo "5 lunacy preamble white penknife esteemed" | ./decrypt.py
 ```
 
 This outputs...
 
-> holy cow comma bat man exclamation point
-
----
-
-The two scripts also keep track of where they are in the one-time pad, so you will get a big warning if it looks like
-any part of the one-time pad is being reused (which is important).
+```plaintext
+holy cow , batman !
+holy cow , batman !
+```
 
 ### Why Did I Do This?
 
