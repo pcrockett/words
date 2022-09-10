@@ -30,8 +30,10 @@ def encrypt_word(plain_word: str, otp: OneTimePad) -> list[str]:
     return [ encrypted_word ]
 
 def encrypt(plaintext: iter, otp: OneTimePad) -> list[str]:
-    ciphertext: list[str] = list()
-    ciphertext.append(otp.next_word())  # The decrypt script checks this word to make sure we're in the same place in the OTP
+
+    # Prepend the current OTP offset to the message so the decrypt script knows where to start reading the OTP
+    ciphertext: list[str] = [ str(otp.current_offset) ]
+
     first_line = True
 
     for line in plaintext:
