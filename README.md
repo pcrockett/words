@@ -6,25 +6,44 @@ Having fun with [one-time pad][1] (OTP) cryptography.
 
 ### Basic Usage
 
-Only tested on Linux.
+_Only tested on Linux._
+
+---
+
+Generate your one-time pad:
 
 ```bash
-# Create your one-time pad:
 make
-
-echo "Holy cow bat man !" | ./encrypt.py
-# Output: truck influential interfere derivations cheating rivalling
-
-echo "truck influential interfere derivations cheating rivalling" | ./decrypt.py
-# Output: holy cow bat man !
 ```
 
-The two scripts also keep track of where they are in the one-time pad, so they won't re-use parts of it. Which means:
+---
 
-* If you encrypt the same phrase several times, the output will be different each time.
-* You need to decrypt _every message_ you encrypt, _in the order that you encrypted them_. Otherwise, the two scripts
-  will get out of sync and you will lose the ability to decrypt. _See [Troubleshooting](#troubleshooting) below if you
-  get into this situation._
+Encrypt a message:
+
+```bash
+echo "Holy cow , Bat man !" | ./encrypt.py
+```
+
+This outputs something like...
+
+> 0 red eccentric glitch amber bronzing steadfast shrouded
+
+---
+
+Decrypt a message:
+
+```bash
+echo "0 red eccentric glitch amber bronzing steadfast shrouded" | ./decrypt.py
+```
+
+This outputs...
+
+> holy cow comma bat man exclamation point
+
+---
+
+The two scripts also keep track of where they are in the one-time pad, so you will get a big warning if it looks like
+any part of the one-time pad is being reused (which is important).
 
 ### Why Did I Do This?
 
@@ -63,31 +82,6 @@ Some words in my word list were selected by me, however I sourced the majority o
 
 * [The EFF short and long word lists][2]
 * [This nice person's 1000 most common words][3]
-
-### Troubleshooting
-
-> OTPSyncError: This message starts at a different location from where we are in the one-time pad.
-
-Your encrypt / decrypt scripts for some reason are no longer pointing at the same offset in the one-time pad. The safest
-way to fix this is to reset _All The Things_ and recreate the pad from scratch:
-
-```bash
-rm otp.txt
-make
-```
-
-This is the safest method because it guarantees that you'll never reuse any portion of the one-time pad, which is
-**vital** to the security of the whole thing.
-
-Another way that's less extreme is to just fast-forward whichever script is behind to match the script that's ahead. You
-can do this by running:
-
-```bash
-./resync.py
-```
-
-Only do this if you are certain of the reason why your scripts are out of sync, and you're confident that no portion of
-the OTP will be reused.
 
 [1]: https://en.wikipedia.org/wiki/One-time_pad
 [2]: https://www.eff.org/deeplinks/2016/07/new-wordlists-random-passphrases

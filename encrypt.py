@@ -14,15 +14,19 @@ otp = OneTimePad(OTP_FILE, otp_offset)
 wordlist = read_wordlist(WORDLIST_FILE)
 
 def encrypt_word(plain_word: str, otp: OneTimePad) -> list[str]:
-    if len(plain_word) <= 1:
-        plain_index = wordlist.get_index(plain_word)
-    else:
-        # This isn't a letter or symbol -- the user typed in a word.
-        try:
-            plain_index = wordlist.get_index(plain_word.lower())
-        except KeyError:
-            # Not in our word list. Split it up and encrypt each character.
-            return [encrypt_word(ch, otp)[0] for ch in plain_word]
+
+    if plain_word in symbol_lookup:
+        # `plain_word` isn't a word; it's actually a symbol. Convert to an actual word and then encrypt it.
+        # For example, "!" converts to [ "exclamation", "point" ]
+        symbol_alias = symbol_lookup[plain_word]
+        return [ encrypt_word(s, otp)[0] for s in symbol_alias ]
+
+    # This isn't a letter or symbol; the user typed in a word.
+    try:
+        plain_index = wordlist.get_index(plain_word.lower())
+    except KeyError:
+        # Not in our word list. Split it up and encrypt each character.
+        return [encrypt_word(ch, otp)[0] for ch in plain_word]
 
     key_index = otp.next_word_index()
     encrypted_index = (plain_index + key_index) % wordlist.count
