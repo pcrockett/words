@@ -1,4 +1,46 @@
+!
+#
+%
+&
+'
+(
+)
+*
++
+,
+-
+.
+/
+:
+;
+<
+=
+>
+?
+@
+[
+\
+]
+^
+_
+`
+{
+|
+}
+~
+$
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
 a
+A
 abacus
 abdomen
 abdominal
@@ -441,6 +483,7 @@ awoke
 awry
 axis
 b
+B
 babble
 babbling
 babied
@@ -543,6 +586,7 @@ barge
 bargraph
 barista
 baritone
+bark
 barley
 barmaid
 barman
@@ -568,9 +612,9 @@ basis
 bask
 basket
 bat
-batboy
 batch
 bath
+batman
 baton
 bats
 battalion
@@ -872,6 +916,7 @@ buy
 buzz
 by
 c
+C
 cabana
 cabbage
 cabbie
@@ -1687,6 +1732,7 @@ cymbal
 cytoplasm
 cytoplast
 d
+D
 dab
 dad
 daffodil
@@ -2282,6 +2328,7 @@ dynasty
 dyslexia
 dyslexic
 e
+E
 each
 eagle
 ear
@@ -2716,6 +2763,7 @@ extruding
 exuberant
 eye
 f
+F
 fable
 fabric
 fabulous
@@ -3077,6 +3125,7 @@ frying
 full
 fun
 g
+G
 gab
 gaffe
 gag
@@ -3407,6 +3456,7 @@ guy
 guzzler
 gyration
 h
+H
 habit
 habitable
 habitant
@@ -3615,6 +3665,7 @@ hesitant
 hesitate
 hexagon
 hexagram
+hi
 high
 hill
 him
@@ -3838,6 +3889,7 @@ itunes
 ivory
 ivy
 j
+J
 jab
 jackal
 jacket
@@ -3940,6 +3992,7 @@ justly
 justness
 juvenile
 k
+K
 kabob
 kangaroo
 karaoke
@@ -4001,6 +4054,7 @@ krypton
 kudos
 kung
 l
+L
 labored
 laborer
 laboring
@@ -4228,6 +4282,7 @@ lyricism
 lyricist
 lyrics
 m
+M
 macarena
 macaroni
 macaw
@@ -4573,7 +4628,9 @@ myspace
 mystified
 mystify
 myth
+\n
 n
+N
 nacho
 nag
 nail
@@ -4697,6 +4754,7 @@ nutty
 nuzzle
 nylon
 o
+O
 oaf
 oak
 oasis
@@ -4965,6 +5023,7 @@ oxymoron
 oyster
 ozone
 p
+P
 pace
 paced
 pacemaker
@@ -5300,6 +5359,7 @@ polymer
 poncho
 pond
 pony
+poop
 poor
 popcorn
 pope
@@ -5595,6 +5655,7 @@ pyramid
 pyromania
 python
 q
+Q
 quack
 quadrant
 quail
@@ -5639,6 +5700,7 @@ quotation
 quote
 quotient
 r
+R
 rabid
 race
 racing
@@ -6191,6 +6253,7 @@ rush
 rust
 rut
 s
+S
 sabbath
 sabotage
 sacrament
@@ -7404,6 +7467,7 @@ synthetic
 syrup
 system
 t
+T
 tab
 tabasco
 tabby
@@ -7791,6 +7855,7 @@ tying
 tyke
 type
 u
+U
 udder
 ultimate
 ultimatum
@@ -8276,6 +8341,7 @@ utmost
 utopia
 utter
 v
+V
 vacancy
 vacant
 vacate
@@ -8416,6 +8482,7 @@ vowed
 vowel
 voyage
 w
+W
 wackiness
 wad
 wafer
@@ -8620,9 +8687,11 @@ wrongness
 wrote
 wrought
 x
+X
 xbox
 xerox
 y
+Y
 yahoo
 yam
 yanking
@@ -8658,6 +8727,7 @@ yo-yo
 yoyo
 yummy
 z
+Z
 zap
 zealous
 zebra

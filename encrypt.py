@@ -22,17 +22,14 @@ def flatten(nested_list: list) -> list:
 
 def encrypt_word(plain_word: str, otp: OneTimePad) -> list[str]:
 
-    if plain_word in symbol_lookup:
-        # `plain_word` isn't a word; it's actually a symbol. Convert to an actual word and then encrypt it.
-        # For example, "!" converts to [ "exclamation", "point" ]
-        symbol_alias: list[str] = symbol_lookup[plain_word]
-        return flatten([ encrypt_word(s, otp) for s in symbol_alias ])
-
-    try:
-        plain_index = wordlist.get_index(plain_word.lower())
-    except KeyError:
-        # Not in our word list. Split it up and encrypt each character.
-        return flatten([ encrypt_word(ch, otp) for ch in plain_word ])
+    if len(plain_word) == 1:
+        plain_index = wordlist.get_index(plain_word)
+    else:
+        try:
+            plain_index = wordlist.get_index(plain_word.lower())
+        except KeyError:
+            # Not in our word list. Split it up and encrypt each character.
+            return flatten([ encrypt_word(ch, otp) for ch in plain_word ])
 
     key_index = otp.next_word_index()
     encrypted_index = (plain_index + key_index) % wordlist.count

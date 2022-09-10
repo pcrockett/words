@@ -6,7 +6,7 @@ wordlist-sorted.txt: wordlist.txt
 	sort --unique --stable wordlist.txt > wordlist-sorted.txt
 
 wordlist-numbered.txt: wordlist-sorted.txt
-	nl ./wordlist-sorted.txt > wordlist-numbered.txt
+	nl --starting-line-number 0 ./wordlist-sorted.txt > wordlist-numbered.txt
 
 otp.txt: wordlist-numbered.txt
 	shuf --repeat \

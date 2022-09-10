@@ -36,8 +36,8 @@ def decrypt(ciphertext: iter, otp: OneTimePad) -> list[str]:
         for encrypted_word in line.split():
             key_index = otp.next_word_index()
             encrypted_index = wordlist.get_index(encrypted_word)
-            plain_index = (encrypted_index - key_index)
-            if plain_index <= 0:
+            plain_index = encrypted_index - key_index
+            if plain_index < 0:
                 plain_index += wordlist.count
             plain_word = wordlist.get_word(plain_index)
             if plain_word == "\\n":
