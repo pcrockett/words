@@ -25,6 +25,9 @@ class WordLookup:
     def get_index(self, word: str) -> int:
         return self._word_to_index_lookup[word]
 
+    def exists(self, word: str) -> bool:
+        return word in self._word_to_index_lookup
+
     @property
     def count(self) -> int:
         return len(self._word_to_index_lookup)

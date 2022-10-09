@@ -21,19 +21,19 @@ make
 Encrypt a message:
 
 ```bash
-echo "Holy cow , Batman !" | ./encrypt.py
+echo "Holy cow, Batman!" | ./encrypt.py
 ```
 
 This outputs something like...
 
 ```plaintext
-0 money leggings crib crusader unfixed
+0 spectrum crazily remix omega began
 ```
 
 If you were to encrypt the same phrase again, it would generate different output that looks something like...
 
 ```plaintext
-5 lunacy preamble white penknife esteemed
+5 dizziness regalia mortally thrift blunt
 ```
 
 ---
@@ -41,8 +41,8 @@ If you were to encrypt the same phrase again, it would generate different output
 Decrypt a message:
 
 ```bash
-echo "0 money leggings crib crusader unfixed" | ./decrypt.py
-echo "5 lunacy preamble white penknife esteemed" | ./decrypt.py
+echo "0 spectrum crazily remix omega began" | ./decrypt.py
+echo "5 dizziness regalia mortally thrift blunt" | ./decrypt.py
 ```
 
 This outputs...
