@@ -12,7 +12,7 @@ WORDLIST_FILE = f"{this_dir}/wordlist-numbered.txt"
 otp_offset = read_otp_offset(OTP_ENCRYPT_OFFSET_FILE)
 otp = OneTimePad(OTP_FILE, otp_offset)
 wordlist = read_wordlist(WORDLIST_FILE)
-symbol_set = set("!#%&'()*+,-./\\:;<=>?@[]^_`{|}~$0123456789")
+symbol_set = set("!#%&'\"()*+,-./\\:;<=>?@[]^_`{|}~$0123456789")
 
 def flatten(nested_list: list) -> list:
     flat_list = []

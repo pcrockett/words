@@ -1,4 +1,4 @@
-.PHONY: sort-wordlist
+.PHONY: sort-wordlist test-raw-data
 
 default: otp.txt
 
@@ -18,3 +18,7 @@ otp.txt: wordlist-numbered.txt
 
 sort-wordlist: wordlist-sorted.txt
 	cp wordlist-sorted.txt wordlist.txt
+
+test-raw-data:
+	git log | gzip | base64 | ./encrypt.py \
+		| ./decrypt.py | tr --delete [:space:] | base64 --decode | gunzip
